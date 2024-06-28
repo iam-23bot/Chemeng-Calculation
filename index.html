@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Plant Chemical Engineering Calculations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Power Plant Chemical Engineering Calculations</h1>
+
+        <!-- Cooling Tower Make-up Water Calculation -->
+        <form id="cooling-tower-form">
+            <h2>Cooling Tower Make-up Water Calculation</h2>
+            <div class="form-group">
+                <label for="evaporation">Evaporation Loss (m³/h):</label>
+                <input type="number" id="evaporation" required>
+            </div>
+            <div class="form-group">
+                <label for="blowdown">Blowdown Loss (m³/h):</label>
+                <input type="number" id="blowdown" required>
+            </div>
+            <div class="form-group">
+                <label for="drift">Drift Loss (m³/h):</label>
+                <input type="number" id="drift" required>
+            </div>
+            <button type="button" onclick="calculateMakeUpWater()">Calculate Make-up Water</button>
+            <div class="result" id="makeup-result"></div>
+        </form>
+
+        <!-- Combustion Efficiency Calculation -->
+        <form id="combustion-efficiency-form">
+            <h2>Combustion Efficiency Calculation</h2>
+            <div class="form-group">
+                <label for="fuel-value">Fuel Value (MJ/kg):</label>
+                <input type="number" id="fuel-value" required>
+            </div>
+            <div class="form-group">
+                <label for="actual-heat">Actual Heat Output (MJ):</label>
+                <input type="number" id="actual-heat" required>
+            </div>
+            <div class="form-group">
+                <label for="theoretical-heat">Theoretical Heat Output (MJ):</label>
+                <input type="number" id="theoretical-heat" required>
+            </div>
+            <button type="button" onclick="calculateCombustionEfficiency()">Calculate Efficiency</button>
+            <div class="result" id="efficiency-result"></div>
+        </form>
+
+        <!-- Mass and Energy Balance -->
+        <form id="mass-energy-balance-form">
+            <h2>Mass and Energy Balance</h2>
+            <div class="form-group">
+                <label for="mass-in">Mass In (kg):</label>
+                <input type="number" id="mass-in" required>
+            </div>
+            <div class="form-group">
+                <label for="mass-out">Mass Out (kg):</label>
+                <input type="number" id="mass-out" required>
+            </div>
+            <div class="form-group">
+                <label for="energy-in">Energy In (MJ):</label>
+                <input type="number" id="energy-in" required>
+            </div>
+            <div class="form-group">
+                <label for="energy-out">Energy Out (MJ):</label>
+                <input type="number" id="energy-out" required>
+            </div>
+            <button type="button" onclick="calculateMassEnergyBalance()">Calculate Balance</button>
+            <div class="result" id="balance-result"></div>
+        </form>
+
+        <!-- Emissions Calculation -->
+        <form id="emissions-form">
+            <h2>Emissions Calculation</h2>
+            <div class="form-group">
+                <label for="fuel-amount">Fuel Amount (kg):</label>
+                <input type="number" id="fuel-amount" required>
+            </div>
+            <div class="form-group">
+                <label for="carbon-content">Carbon Content (%):</label>
+                <input type="number" id="carbon-content" required>
+            </div>
+            <button type="button" onclick="calculateEmissions()">Calculate Emissions</button>
+            <div class="result" id="emissions-result"></div>
+        </form>
+
+        <!-- Turbine Efficiency Calculation -->
+        <form id="turbine-efficiency-form">
+            <h2>Turbine Efficiency Calculation</h2>
+            <div class="form-group">
+                <label for="input-enthalpy">Input Enthalpy (kJ/kg):</label>
+                <input type="number" id="input-enthalpy" required>
+            </div>
+            <div class="form-group">
+                <label for="output-enthalpy">Output Enthalpy (kJ/kg):</label>
+                <input type="number" id="output-enthalpy" required>
+            </div>
+            <button type="button" onclick="calculateTurbineEfficiency()">Calculate Efficiency</button>
+            <div class="result" id="turbine-efficiency-result"></div>
+        </form>
+
+        <!-- Heat Recovery Efficiency -->
+        <form id="heat-recovery-form">
+            <h2>Heat Recovery Efficiency</h2>
+            <div class="form-group">
+                <label for="input-heat">Input Heat (MJ):</label>
+                <input type="number" id="input-heat" required>
+            </div>
+            <div class="form-group">
+                <label for="recovered-heat">Recovered Heat (MJ):</label>
+                <input type="number" id="recovered-heat" required>
+            </div>
+            <button type="button" onclick="calculateHeatRecoveryEfficiency()">Calculate Efficiency</button>
+            <div class="result" id="heat-recovery-result"></div>
+        </form>
+
+        <!-- Air and Steam Quality -->
+        <form id="air-steam-quality-form">
+            <h2>Air and Steam Quality</h2>
+            <div class="form-group">
+                <label for="boiler-pressure">Boiler Pressure (bar):</label>
+                <input type="number" id="boiler-pressure" required>
+            </div>
+            <div class="form-group">
+                <label for="steam-temperature">Steam Temperature (°C):</label>
+                <input type="number" id="steam-temperature" required>
+            </div>
+            <button type="button" onclick="calculateAirSteamQuality()">Calculate Quality</button>
+            <div class="result" id="air-steam-quality-result"></div>
+        </form>
+
+        <!-- Energy and Fuel Consumption -->
+        <form id="energy-fuel-consumption-form">
+            <h2>Energy and Fuel Consumption</h2>
+            <div class="form-group">
+                <label for="energy-output">Energy Output (MJ):</label>
+                <input type="number" id="energy-output" required>
+            </div>
+            <div class="form-group">
+                <label for="fuel-consumed">Fuel Consumed (kg):</label>
+                <input type="number" id="fuel-consumed" required>
+            </div>
+            <button type="button" onclick="calculateEnergyFuelConsumption()">Calculate Consumption</button>
+            <div class="result" id="energy-fuel-consumption-result"></div>
+        </form>
+
+        <!-- Chemical Process Reaction -->
+        <form id="chemical-process-form">
+            <h2>Chemical Process Reaction</h2>
+            <div class="form-group">
+                <label for="reactant">Reactant Amount (kg):</label>
+                <input type="number" id="reactant" required>
+            </div>
+            <div class="form-group">
+                <label for="product">Product Amount (kg):</label>
+                <input type="number" id="product" required>
+            </div>
+            <button type="button" onclick="calculateChemicalProcess()">Calculate Process</button>
+            <div class="result" id="chemical-process-result"></div>
+        </form>
+
+        <!-- Safety and Health Calculation -->
+        <form id="safety-health-form">
+            <h2>Safety and Health Calculation</h2>
+            <div class="form-group">
+                <label for="hazardous-concentration">Hazardous Substance Concentration (ppm):</label>
+                <input type="number" id="hazardous-concentration" required>
+            </div>
+            <div class="form-group">
+                <label for="exposure-time">Exposure Time (hours):</label>
+                <input type="number" id="exposure-time" required>
+            </div>
+            <button type="button" onclick="calculateSafetyHealth()">Calculate Safety</button>
+            <div class="result" id="safety-health-result"></div>
+        </form>
+
+        <div class="footer">
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/muhammad-alfi-syahri" target="_blank">Muhammad Alfi Syahri</a></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
