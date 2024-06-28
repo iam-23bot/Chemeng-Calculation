@@ -1,66 +1,230 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
+function convertUnits(value, fromUnit, toUnit) {
+    const conversionFactors = {
+        'm3/h': 1,
+        'gpm': 0.00440287,
+        'kg': 1,
+        'lb': 0.453592,
+        'MJ': 1,
+        'Btu': 0.00105506,
+        'kJ/kg': 1,
+        'Btu/lb': 2.326,
+        'bar': 1,
+        'psi': 0.0689476,
+        'C': 1,
+        'F': (val) => (val - 32) * 5 / 9,
+        'ppm': 1,
+        'mg/m3': 0.001,
+        'hours': 1,
+        'minutes': 0.0166667,
+    };
+
+    if (typeof conversionFactors[fromUnit] === 'function') {
+        return conversionFactors[fromUnit](value);
+    }
+
+    return value * (conversionFactors[fromUnit] / conversionFactors[toUnit]);
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+function calculateMakeUpWater() {
+    const evaporation = parseFloat(document.getElementById('evaporation').value);
+    const blowdown = parseFloat(document.getElementById('blowdown').value);
+    const drift = parseFloat(document.getElementById('drift').value);
+
+    const evaporationUnit = document.getElementById('evaporation-unit').value;
+    const blowdownUnit = document.getElementById('blowdown-unit').value;
+    const driftUnit = document.getElementById('drift-unit').value;
+
+    if (isNaN(evaporation) || isNaN(blowdown) || isNaN(drift)) {
+        alert('Please enter valid numbers');
+        return;
+    }
+
+    const evaporationM3H = convertUnits(evaporation, evaporationUnit, 'm3/h');
+    const blowdownM3H = convertUnits(blowdown, blowdownUnit, 'm3/h');
+    const driftM3H = convertUnits(drift, driftUnit, 'm3/h');
+
+    const makeUpWater = evaporationM3H + blowdownM3H + driftM3H;
+    document.getElementById('makeup-result').innerText = `Make-up Water Requirement: ${makeUpWater.toFixed(2)} m³/h`;
 }
 
-h1, h2 {
-    text-align: center;
+function calculateCombustionEfficiency() {
+    const fuelValue = parseFloat(document.getElementById('fuel-value').value);
+    const actualHeat = parseFloat(document.getElementById('actual-heat').value);
+    const theoreticalHeat = parseFloat(document.getElementById('theoretical-heat').value);
+
+    const fuelValueUnit = document.getElementById('fuel-value-unit').value;
+    const actualHeatUnit = document.getElementById('actual-heat-unit').value;
+    const theoreticalHeatUnit = document.getElementById('theoretical-heat-unit').value;
+
+    if (isNaN(fuelValue) || isNaN(actualHeat) || isNaN(theoreticalHeat)) {
+        alert('Please enter valid numbers');
+        return;
+    }
+
+    const fuelValueMJ = convertUnits(fuelValue, fuelValueUnit, 'MJ');
+    const actualHeatMJ = convertUnits(actualHeat, actualHeatUnit, 'MJ');
+    const theoreticalHeatMJ = convertUnits(theoreticalHeat, theoreticalHeatUnit, 'MJ');
+
+    const efficiency = (actualHeatMJ / theoreticalHeatMJ) * 100;
+    document.getElementById('efficiency-result').innerText = `Combustion Efficiency: ${efficiency.toFixed(2)}%`;
 }
 
-.form-group {
-    margin-bottom: 15px;
+function calculateMassEnergyBalance() {
+    const massIn = parseFloat(document.getElementById('mass-in').value);
+    const massOut = parseFloat(document.getElementById('mass-out').value);
+    const energyIn = parseFloat(document.getElementById('energy-in').value);
+    const energyOut = parseFloat(document.getElementById('energy-out').value);
+
+    const massInUnit = document.getElementById('mass-in-unit').value;
+    const massOutUnit = document.getElementById('mass-out-unit').value;
+    const energyInUnit = document.getElementById('energy-in-unit').value;
+    const energyOutUnit = document.getElementById('energy-out-unit').value;
+
+    if (isNaN(massIn) || isNaN(massOut) || isNaN(energyIn) || isNaN(energyOut)) {
+        alert('Please enter valid numbers');
+        return;
+    }
+
+    const massInKg = convertUnits(massIn, massInUnit, 'kg');
+    const massOutKg = convertUnits(massOut, massOutUnit, 'kg');
+    const energyInMJ = convertUnits(energyIn, energyInUnit, 'MJ');
+    const energyOutMJ = convertUnits(energyOut, energyOutUnit, 'MJ');
+
+    const massBalance = massInKg - massOutKg;
+    const energyBalance = energyInMJ - energyOutMJ;
+
+    document.getElementById('balance-result').innerText = `Mass Balance: ${massBalance.toFixed(2)} kg, Energy Balance: ${energyBalance.toFixed(2)} MJ`;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
+function calculateEmissions() {
+    const fuelAmount = parseFloat(document.getElementById('fuel-amount').value);
+    const carbonContent = parseFloat(document.getElementById('carbon-content').value);
+
+    const fuelAmountUnit = document.getElementById('fuel-amount-unit').value;
+
+    if (isNaN(fuelAmount) || isNaN(carbonContent)) {
+        alert('Please enter valid numbers');
+        return;
+    }
+
+    const fuelAmountKg = convertUnits(fuelAmount, fuelAmountUnit, 'kg');
+
+    const emissions = fuelAmountKg * (carbonContent / 100) * 3.67;
+    document.getElementById('emissions-result').innerText = `CO2 Emissions: ${emissions.toFixed(2)} kg`;
 }
 
-input[type="number"] {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+function calculateTurbineEfficiency() {
+    const inputEnthalpy = parseFloat(document.getElementById('input-enthalpy').value);
+    const outputEnthalpy = parseFloat(document.getElementById('output-enthalpy').value);
+
+    const inputEnthalpyUnit = document.getElementById('input-enthalpy-unit').value;
+    const outputEnthalpyUnit = document.getElementById('output-enthalpy-unit').value;
+
+    if (isNaN(inputEnthalpy) || isNaN(outputEnthalpy)) {
+        alert('Please enter valid numbers');
+        return;
+    }
+
+    const inputEnthalpyKJkg = convertUnits(inputEnthalpy, inputEnthalpyUnit, 'kJ/kg');
+    const outputEnthalpyKJkg = convertUnits(outputEnthalpy, outputEnthalpyUnit, 'kJ/kg');
+
+    const efficiency = ((inputEnthalpyKJkg - outputEnthalpyKJkg) / inputEnthalpyKJkg) * 100;
+    document.getElementById('turbine-efficiency-result').innerText = `Turbine Efficiency: ${efficiency.toFixed(2)}%`;
 }
 
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+function calculateHeatRecoveryEfficiency() {
+    const inputHeat = parseFloat(document.getElementById('input-heat').value);
+    const recoveredHeat = parseFloat(document.getElementById('recovered-heat').value);
+
+    const inputHeatUnit = document.getElementById('input-heat-unit').value;
+    const recoveredHeatUnit = document.getElementById('recovered-heat-unit').value;
+
+    if (isNaN(inputHeat) || isNaN(recoveredHeat)) {
+        alert('Please enter valid numbers');
+        return;
+    }
+
+    const inputHeatMJ = convertUnits(inputHeat, inputHeatUnit, 'MJ');
+    const recoveredHeatMJ = convertUnits(recoveredHeat, recoveredHeatUnit, 'MJ');
+
+    const efficiency = (recoveredHeatMJ / inputHeatMJ) * 100;
+    document.getElementById('heat-recovery-result').innerText = `Heat Recovery Efficiency: ${efficiency.toFixed(2)}%`;
 }
 
-button:hover {
-    background-color: #0056b3;
+function calculateAirSteamQuality() {
+    const boilerPressure = parseFloat(document.getElementById('boiler-pressure').value);
+    const steamTemperature = parseFloat(document.getElementById('steam-temperature').value);
+
+    const boilerPressureUnit = document.getElementById('boiler-pressure-unit').value;
+    const steamTemperatureUnit = document.getElementById('steam-temperature-unit').value;
+
+    if (isNaN(boilerPressure) || isNaN(steamTemperature)) {
+        alert('Please enter valid numbers');
+        return;
+    }
+
+    const boilerPressureBar = convertUnits(boilerPressure, boilerPressureUnit, 'bar');
+    const steamTemperatureC = convertUnits(steamTemperature, steamTemperatureUnit, 'C');
+
+    // Assuming we calculate steam quality based on pressure and temperature
+    const quality = (steamTemperatureC / boilerPressureBar).toFixed(2);
+    document.getElementById('air-steam-quality-result').innerText = `Steam Quality: ${quality}`;
 }
 
-.result {
-    margin-top: 15px;
-    font-weight: bold;
+function calculateEnergyFuelConsumption() {
+    const energyOutput = parseFloat(document.getElementById('energy-output').value);
+    const fuelConsumed = parseFloat(document.getElementById('fuel-consumed').value);
+
+    const energyOutputUnit = document.getElementById('energy-output-unit').value;
+    const fuelConsumedUnit = document.getElementById('fuel-consumed-unit').value;
+
+    if (isNaN(energyOutput) || isNaN(fuelConsumed)) {
+        alert('Please enter valid numbers');
+        return;
+    }
+
+    const energyOutputMJ = convertUnits(energyOutput, energyOutputUnit, 'MJ');
+    const fuelConsumedKg = convertUnits(fuelConsumed, fuelConsumedUnit, 'kg');
+
+    const consumption = energyOutputMJ / fuelConsumedKg;
+    document.getElementById('energy-fuel-consumption-result').innerText = `Energy per Fuel: ${consumption.toFixed(2)} MJ/kg`;
 }
 
-.footer {
-    text-align: center;
-    margin-top: 20px;
+function calculateChemicalProcess() {
+    const reactant = parseFloat(document.getElementById('reactant').value);
+    const product = parseFloat(document.getElementById('product').value);
+
+    const reactantUnit = document.getElementById('reactant-unit').value;
+    const productUnit = document.getElementById('product-unit').value;
+
+    if (isNaN(reactant) || isNaN(product)) {
+        alert('Please enter valid numbers');
+        return;
+    }
+
+    const reactantKg = convertUnits(reactant, reactantUnit, 'kg');
+    const productKg = convertUnits(product, productUnit, 'kg');
+
+    const efficiency = (productKg / reactantKg) * 100;
+    document.getElementById('chemical-process-result').innerText = `Chemical Process Efficiency: ${efficiency.toFixed(2)}%`;
 }
 
-.footer a {
-    color: #007BFF;
-    text-decoration: none;
-}
+function calculateSafetyHealth() {
+    const hazardousConcentration = parseFloat(document.getElementById('hazardous-concentration').value);
+    const exposureTime = parseFloat(document.getElementById('exposure-time').value);
 
-.footer a:hover {
-    text-decoration: underline;
+    const hazardousConcentrationUnit = document.getElementById('hazardous-concentration-unit').value;
+    const exposureTimeUnit = document.getElementById('exposure-time-unit').value;
+
+    if (isNaN(hazardousConcentration) || isNaN(exposureTime)) {
+        alert('Please enter valid numbers');
+        return;
+    }
+
+    const hazardousConcentrationPpm = convertUnits(hazardousConcentration, hazardousConcentrationUnit, 'ppm');
+    const exposureTimeHours = convertUnits(exposureTime, exposureTimeUnit, 'hours');
+
+    // Assuming some calculation to get safety index based on concentration and time
+    const safetyIndex = (hazardousConcentrationPpm * exposureTimeHours).toFixed(2);
+    document.getElementById('safety-health-result').innerText = `Safety Index: ${safetyIndex}`;
 }
