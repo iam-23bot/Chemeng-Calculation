@@ -14,16 +14,28 @@
         <form id="cooling-tower-form">
             <h2>Cooling Tower Make-up Water Calculation</h2>
             <div class="form-group">
-                <label for="evaporation">Evaporation Loss (m³/h):</label>
+                <label for="evaporation">Evaporation Loss:</label>
                 <input type="number" id="evaporation" required>
+                <select id="evaporation-unit">
+                    <option value="m3/h">m³/h</option>
+                    <option value="gpm">gpm</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="blowdown">Blowdown Loss (m³/h):</label>
+                <label for="blowdown">Blowdown Loss:</label>
                 <input type="number" id="blowdown" required>
+                <select id="blowdown-unit">
+                    <option value="m3/h">m³/h</option>
+                    <option value="gpm">gpm</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="drift">Drift Loss (m³/h):</label>
+                <label for="drift">Drift Loss:</label>
                 <input type="number" id="drift" required>
+                <select id="drift-unit">
+                    <option value="m3/h">m³/h</option>
+                    <option value="gpm">gpm</option>
+                </select>
             </div>
             <button type="button" onclick="calculateMakeUpWater()">Calculate Make-up Water</button>
             <div class="result" id="makeup-result"></div>
@@ -33,16 +45,28 @@
         <form id="combustion-efficiency-form">
             <h2>Combustion Efficiency Calculation</h2>
             <div class="form-group">
-                <label for="fuel-value">Fuel Value (MJ/kg):</label>
+                <label for="fuel-value">Fuel Value:</label>
                 <input type="number" id="fuel-value" required>
+                <select id="fuel-value-unit">
+                    <option value="MJ/kg">MJ/kg</option>
+                    <option value="Btu/lb">Btu/lb</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="actual-heat">Actual Heat Output (MJ):</label>
+                <label for="actual-heat">Actual Heat Output:</label>
                 <input type="number" id="actual-heat" required>
+                <select id="actual-heat-unit">
+                    <option value="MJ">MJ</option>
+                    <option value="Btu">Btu</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="theoretical-heat">Theoretical Heat Output (MJ):</label>
+                <label for="theoretical-heat">Theoretical Heat Output:</label>
                 <input type="number" id="theoretical-heat" required>
+                <select id="theoretical-heat-unit">
+                    <option value="MJ">MJ</option>
+                    <option value="Btu">Btu</option>
+                </select>
             </div>
             <button type="button" onclick="calculateCombustionEfficiency()">Calculate Efficiency</button>
             <div class="result" id="efficiency-result"></div>
@@ -52,20 +76,36 @@
         <form id="mass-energy-balance-form">
             <h2>Mass and Energy Balance</h2>
             <div class="form-group">
-                <label for="mass-in">Mass In (kg):</label>
+                <label for="mass-in">Mass In:</label>
                 <input type="number" id="mass-in" required>
+                <select id="mass-in-unit">
+                    <option value="kg">kg</option>
+                    <option value="lb">lb</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="mass-out">Mass Out (kg):</label>
+                <label for="mass-out">Mass Out:</label>
                 <input type="number" id="mass-out" required>
+                <select id="mass-out-unit">
+                    <option value="kg">kg</option>
+                    <option value="lb">lb</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="energy-in">Energy In (MJ):</label>
+                <label for="energy-in">Energy In:</label>
                 <input type="number" id="energy-in" required>
+                <select id="energy-in-unit">
+                    <option value="MJ">MJ</option>
+                    <option value="Btu">Btu</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="energy-out">Energy Out (MJ):</label>
+                <label for="energy-out">Energy Out:</label>
                 <input type="number" id="energy-out" required>
+                <select id="energy-out-unit">
+                    <option value="MJ">MJ</option>
+                    <option value="Btu">Btu</option>
+                </select>
             </div>
             <button type="button" onclick="calculateMassEnergyBalance()">Calculate Balance</button>
             <div class="result" id="balance-result"></div>
@@ -75,8 +115,12 @@
         <form id="emissions-form">
             <h2>Emissions Calculation</h2>
             <div class="form-group">
-                <label for="fuel-amount">Fuel Amount (kg):</label>
+                <label for="fuel-amount">Fuel Amount:</label>
                 <input type="number" id="fuel-amount" required>
+                <select id="fuel-amount-unit">
+                    <option value="kg">kg</option>
+                    <option value="lb">lb</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="carbon-content">Carbon Content (%):</label>
@@ -90,12 +134,20 @@
         <form id="turbine-efficiency-form">
             <h2>Turbine Efficiency Calculation</h2>
             <div class="form-group">
-                <label for="input-enthalpy">Input Enthalpy (kJ/kg):</label>
+                <label for="input-enthalpy">Input Enthalpy:</label>
                 <input type="number" id="input-enthalpy" required>
+                <select id="input-enthalpy-unit">
+                    <option value="kJ/kg">kJ/kg</option>
+                    <option value="Btu/lb">Btu/lb</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="output-enthalpy">Output Enthalpy (kJ/kg):</label>
+                <label for="output-enthalpy">Output Enthalpy:</label>
                 <input type="number" id="output-enthalpy" required>
+                <select id="output-enthalpy-unit">
+                    <option value="kJ/kg">kJ/kg</option>
+                    <option value="Btu/lb">Btu/lb</option>
+                </select>
             </div>
             <button type="button" onclick="calculateTurbineEfficiency()">Calculate Efficiency</button>
             <div class="result" id="turbine-efficiency-result"></div>
@@ -105,12 +157,20 @@
         <form id="heat-recovery-form">
             <h2>Heat Recovery Efficiency</h2>
             <div class="form-group">
-                <label for="input-heat">Input Heat (MJ):</label>
+                <label for="input-heat">Input Heat:</label>
                 <input type="number" id="input-heat" required>
+                <select id="input-heat-unit">
+                    <option value="MJ">MJ</option>
+                    <option value="Btu">Btu</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="recovered-heat">Recovered Heat (MJ):</label>
+                <label for="recovered-heat">Recovered Heat:</label>
                 <input type="number" id="recovered-heat" required>
+                <select id="recovered-heat-unit">
+                    <option value="MJ">MJ</option>
+                    <option value="Btu">Btu</option>
+                </select>
             </div>
             <button type="button" onclick="calculateHeatRecoveryEfficiency()">Calculate Efficiency</button>
             <div class="result" id="heat-recovery-result"></div>
@@ -120,12 +180,20 @@
         <form id="air-steam-quality-form">
             <h2>Air and Steam Quality</h2>
             <div class="form-group">
-                <label for="boiler-pressure">Boiler Pressure (bar):</label>
+                <label for="boiler-pressure">Boiler Pressure:</label>
                 <input type="number" id="boiler-pressure" required>
+                <select id="boiler-pressure-unit">
+                    <option value="bar">bar</option>
+                    <option value="psi">psi</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="steam-temperature">Steam Temperature (°C):</label>
+                <label for="steam-temperature">Steam Temperature:</label>
                 <input type="number" id="steam-temperature" required>
+                <select id="steam-temperature-unit">
+                    <option value="C">°C</option>
+                    <option value="F">°F</option>
+                </select>
             </div>
             <button type="button" onclick="calculateAirSteamQuality()">Calculate Quality</button>
             <div class="result" id="air-steam-quality-result"></div>
@@ -135,44 +203,68 @@
         <form id="energy-fuel-consumption-form">
             <h2>Energy and Fuel Consumption</h2>
             <div class="form-group">
-                <label for="energy-output">Energy Output (MJ):</label>
+                <label for="energy-output">Energy Output:</label>
                 <input type="number" id="energy-output" required>
+                <select id="energy-output-unit">
+                    <option value="MJ">MJ</option>
+                    <option value="Btu">Btu</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="fuel-consumed">Fuel Consumed (kg):</label>
+                <label for="fuel-consumed">Fuel Consumed:</label>
                 <input type="number" id="fuel-consumed" required>
+                <select id="fuel-consumed-unit">
+                    <option value="kg">kg</option>
+                    <option value="lb">lb</option>
+                </select>
             </div>
             <button type="button" onclick="calculateEnergyFuelConsumption()">Calculate Consumption</button>
             <div class="result" id="energy-fuel-consumption-result"></div>
         </form>
 
-        <!-- Chemical Process Reaction -->
+        <!-- Chemical Process Efficiency -->
         <form id="chemical-process-form">
-            <h2>Chemical Process Reaction</h2>
+            <h2>Chemical Process Efficiency</h2>
             <div class="form-group">
-                <label for="reactant">Reactant Amount (kg):</label>
+                <label for="reactant">Reactant:</label>
                 <input type="number" id="reactant" required>
+                <select id="reactant-unit">
+                    <option value="kg">kg</option>
+                    <option value="lb">lb</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="product">Product Amount (kg):</label>
+                <label for="product">Product:</label>
                 <input type="number" id="product" required>
+                <select id="product-unit">
+                    <option value="kg">kg</option>
+                    <option value="lb">lb</option>
+                </select>
             </div>
-            <button type="button" onclick="calculateChemicalProcess()">Calculate Process</button>
+            <button type="button" onclick="calculateChemicalProcess()">Calculate Efficiency</button>
             <div class="result" id="chemical-process-result"></div>
         </form>
 
-        <!-- Safety and Health Calculation -->
+        <!-- Safety and Health Index -->
         <form id="safety-health-form">
-            <h2>Safety and Health Calculation</h2>
+            <h2>Safety and Health Index</h2>
             <div class="form-group">
-                <label for="hazardous-concentration">Hazardous Substance Concentration (ppm):</label>
+                <label for="hazardous-concentration">Hazardous Concentration:</label>
                 <input type="number" id="hazardous-concentration" required>
+                <select id="hazardous-concentration-unit">
+                    <option value="ppm">ppm</option>
+                    <option value="mg/m3">mg/m³</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="exposure-time">Exposure Time (hours):</label>
+                <label for="exposure-time">Exposure Time:</label>
                 <input type="number" id="exposure-time" required>
+                <select id="exposure-time-unit">
+                    <option value="hours">hours</option>
+                    <option value="minutes">minutes</option>
+                </select>
             </div>
-            <button type="button" onclick="calculateSafetyHealth()">Calculate Safety</button>
+            <button type="button" onclick="calculateSafetyHealth()">Calculate Safety Index</button>
             <div class="result" id="safety-health-result"></div>
         </form>
 
